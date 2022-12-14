@@ -1,6 +1,6 @@
 /*
  * File: 0-putchar.c
- * Auth: Brennan D Baraban
+ * Auth: Bludidi
  *
  */
 
