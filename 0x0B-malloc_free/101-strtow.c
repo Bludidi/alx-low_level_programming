@@ -2,49 +2,50 @@
 #include <stdlib.h>
 
 /**
- * strtow - A function that splits a string into words
- * @str: An input pointer of the string to split
- * Return: Apointer to concatened strings or NULL if it str is NULL
+ * strtow - function to split string into words
+ * @str: input string of words
+ *
+ * Return: double pointer to array of words
  */
+
 char **strtow(char *str)
 {
+	int i = 0;
+	int j = 0;
+	int index = 0;
+	int words = 1;
 	char **array;
-	int i = 0, j, m, k = 0, len = 0, count = 0;
 
-	if (str == NULL || *str == '\0')
-		return (NULL);
-	for (; str[i]; i++)
+	if (str == 0)
+		return (0);
+	for (i = 0; str[i]; i++)
 	{
-		if ((str[i] != ' ' || *str != '\t') &&
-				((str[i + 1] == ' ' || str[i + 1] == '\t') || str[i + 1] == '\n'))
-			count++;
+		if (str[i] == ' ')
+			words++;
 	}
-	if (count == 0)
-		return (NULL);
-	array = malloc(sizeof(char *) * (count + 1));
-	if (array == NULL)
-		return (NULL);
-	for (i = 0; str[i] != '\0' && k < count; i++)
+	array = (char **) malloc(words * sizeof(char *));
+	if (array == '\0')
+		return (0);
+	for (i = 0; i < words; i++)
 	{
-		if (str[i] != ' ' || str[i] != '\t')
+		for (j = 0; str[j] != ' '; j++)
+			continue;
+		j++;
+		array[i] = (char *) malloc((j * sizeof(char)) + 1);
+		if (array[i] == '\0')
 		{
-			len = 0;
-			j = i;
-			while ((str[j] != ' ' || str[j] != '\t') && str[j] != '\0')
-				j++, len++;
-			array[k] = malloc((len + 1) * sizeof(char));
-			if (array[k] == NULL)
-			{
-				for (k = k - 1; k >= 0; k++)
-					free(array[k]);
-				free(array);
-				return (NULL);
-			}
-			for (m = 0; m < len; m++, i++)
-				array[k][m] = str[i];
-			array[k++][m] = '\0';
+			for (; i >= 0; i++)
+				free(array[i]);
+			free(array);
+			return (0);
 		}
 	}
-	array[k] = NULL;
+	for (i = 0; i < words; i++)
+	{
+		for (j = 0; str[j] != ' '; j++, index++)
+			array[i][index] = str[j];
+		array[i][index] = '\0';
+		index++;
+	}
 	return (array);
 }
